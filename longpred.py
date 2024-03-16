@@ -12,6 +12,15 @@ import torch.distributed as dist
 import torch.multiprocessing as mp
 from modify_utils import modify_method_of_instance
 
+import llama_self_extend_patch as LlamaSE
+from modify_utils import modify_method_of_instance
+from functools import partial
+from transformers.models.llama.modeling_llama import LlamaAttention
+from transformers import AutoTokenizer, AutoModelForCausalLM
+
+original_llama_forward = LlamaAttention.forward
+self_extend_forward = partial(LlamaSE.self_extend_forward, group_size_1=8, group_size_2=1024)
+
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str, default=None, choices=["llama2-7b-chat-4k", 
