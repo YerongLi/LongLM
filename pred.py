@@ -13,7 +13,10 @@ import torch.multiprocessing as mp
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, default=None, choices=["llama2-7b-chat-4k", "longchat-v1.5-7b-32k", "xgen-7b-8k", "internlm-7b-8k", "chatglm2-6b", "chatglm2-6b-32k", "chatglm3-6b-32k", "vicuna-v1.5-7b-16k"])
+    parser.add_argument('--model', type=str, default=None, choices=["llama2-7b-chat-4k", 
+        "longchat-v1.5-7b-32k", "xgen-7b-8k", "internlm-7b-8k", 
+        "chatglm2-6b", "chatglm2-6b-32k", "chatglm3-6b-32k", "vicuna-v1.5-7b-16k",
+        "TinyLlama-1.1B-Chat-v1.0"])
     parser.add_argument('--e', action='store_true', help="Evaluate on LongBench-E")
     return parser.parse_args(args)
 
@@ -139,6 +142,8 @@ if __name__ == '__main__':
     model2maxlen = json.load(open("config/model2maxlen.json", "r"))
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model_name = args.model
+    if model_name == 'TinyLlama-1.1B-Chat-v1.0':
+        model_name = '/scratch/yerong/.cache/pyllama/TinyLlama-1.1B-Chat-v1.0'
     # define your model
     max_length = model2maxlen[model_name]
     if args.e:
