@@ -87,8 +87,8 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
         else:
             input = tokenizer(prompt, truncation=False, return_tensors="pt").to(device)
         context_length = input.input_ids.shape[-1]
-        print('================')
-        print(context_length)
+        # print('================')
+        # print(context_length)
         if dataset == "samsum": # prevent illegal output on samsum (model endlessly repeat "\nDialogue"), might be a prompting issue
             output = model.generate(
                 **input,
@@ -100,13 +100,14 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
                 eos_token_id=[tokenizer.eos_token_id, tokenizer.encode("\n", add_special_tokens=False)[-1]],
             )[0]
         else:
-            output = model.generate(
-                **input,
-                max_new_tokens=max_gen,
-                num_beams=1,
-                do_sample=False,
-                temperature=1.0,
-            )[0]
+            # output = model.generate(
+            #     **input,
+            #     max_new_tokens=max_gen,
+            #     num_beams=1,
+            #     do_sample=False,
+            #     temperature=1.0,
+            # )[0]
+            output = model.generate(input, max_new_tokens=6)
         pred = tokenizer.decode(output[context_length:], skip_special_tokens=True)
         pred = post_process(pred, model_name)
         
