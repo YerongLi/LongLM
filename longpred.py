@@ -89,7 +89,6 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
         context_length = input.input_ids.shape[-1]
         # print('================')
         # print(context_length)
-        print(input)
         if dataset == "samsum": # prevent illegal output on samsum (model endlessly repeat "\nDialogue"), might be a prompting issue
             output = model.generate(
                 **input,
@@ -109,6 +108,7 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
             #     temperature=1.0,
             # )[0]
             input = input.input_ids
+            print(input)
             output = model.generate(input,
                 eos_token_id=[tokenizer.eos_token_id, tokenizer.encode("\n", add_special_tokens=False)[-1]],
             )
