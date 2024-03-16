@@ -108,7 +108,8 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
             #     do_sample=False,
             #     temperature=1.0,
             # )[0]
-            output = model.generate(input[0],
+            input = input.input_ids
+            output = model.generate(input,
                 eos_token_id=[tokenizer.eos_token_id, tokenizer.encode("\n", add_special_tokens=False)[-1]],
             )
         pred = tokenizer.decode(output[context_length:], skip_special_tokens=True)
