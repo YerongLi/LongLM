@@ -142,8 +142,8 @@ if __name__ == '__main__':
     model2maxlen = json.load(open("config/model2maxlen.json", "r"))
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model_name = args.model
-    if model_name == 'TinyLlama-1.1B-Chat-v1.0':
-        model_name = '/scratch/yerong/.cache/pyllama/TinyLlama-1.1B-Chat-v1.0'
+    # if model_name == 'TinyLlama-1.1B-Chat-v1.0':
+    #     model_name = '/scratch/yerong/.cache/pyllama/TinyLlama-1.1B-Chat-v1.0'
     # define your model
     max_length = model2maxlen[model_name]
     if args.e:
