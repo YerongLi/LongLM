@@ -27,7 +27,7 @@ for line in open("passkey_examples_5k.jsonl", "r"):
     example = json.loads(line)
     prompt_postfix = "What is the pass key? The pass key is "
     prompt = example["input"] + prompt_postfix
-    input_ids = tokenizer(prompt, return_tensors="pt").input_ids
+    input_ids = tokenizer(prompt, return_tensors="pt").input_ids.to(model.device)
     print( "-----------------------------------" )
     print( f"#Tokens of Prompt:", input_ids.shape[1], end=" " )
     print( "Passkey target:", example["target"] )
