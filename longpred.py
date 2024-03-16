@@ -110,9 +110,8 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
             input = input.input_ids
             print(input)
             # tensor([[    1,   673,   278,  ..., 22550, 29901,    13]], device='cuda:0')
-            output = model.generate(input,
-                eos_token_id=[tokenizer.eos_token_id, tokenizer.encode("\n", add_special_tokens=False)[-1]],
-            )
+            output = model.generate(input, max_new_tokens=6)
+
         pred = tokenizer.decode(output[context_length:], skip_special_tokens=True)
         pred = post_process(pred, model_name)
         
