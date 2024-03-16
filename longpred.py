@@ -10,6 +10,7 @@ import argparse
 from llama_flash_attn_monkey_patch import replace_llama_attn_with_flash_attn
 import torch.distributed as dist
 import torch.multiprocessing as mp
+from modify_utils import modify_method_of_instance
 
 def parse_args(args=None):
     parser = argparse.ArgumentParser()
@@ -56,7 +57,6 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
     model, tokenizer = load_model_and_tokenizer(model2path[model_name], model_name, device)
 
     # Modify the model with self_extend_forward
-    from llama_example import self_extend_forward
     modify_method_of_instance(model, "LlamaAttention", "forward", self_extend_forward)
 
     for json_obj in tqdm(data):
@@ -78,6 +78,8 @@ def get_pred(rank, world_size, data, max_length, max_gen, prompt_format, dataset
         else:
             input = tokenizer(prompt, truncation=False, return_tensors="pt").to(device)
         context_length = input.input_ids.shape[-1]
+        print('================')
+        print(context_length)
         if dataset == "samsum": # prevent illegal output on samsum (model endlessly repeat "\nDialogue"), might be a prompting issue
             output = model.generate(
                 **input,
