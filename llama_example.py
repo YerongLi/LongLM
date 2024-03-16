@@ -17,6 +17,8 @@ self_extend_forward = partial(LlamaSE.self_extend_forward, group_size_1=8, group
 # model_path = 'TinyLlama/TinyLlama-1.1B-Chat-v1.0'
 model_path = '/scratch/yerong/.cache/pyllama/TinyLlama-1.1B-Chat-v1.0'
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto")
+print(model.device)
+print('device =============')
 tokenizer = AutoTokenizer.from_pretrained(model_path)
 model.eval()
 
