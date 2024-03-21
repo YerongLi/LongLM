@@ -9,3 +9,5 @@ einops
 accelerate
 flash_attn
 sentencepiece
+google
+protobuf
