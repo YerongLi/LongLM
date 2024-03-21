@@ -7,3 +7,5 @@ fuzzywuzzy
 transformers==4.32.0 
 einops
 accelerate
+flash_attn
+sentencepiece
