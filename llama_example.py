@@ -13,9 +13,10 @@ original_llama_forward = LlamaAttention.forward
 self_extend_forward = partial(LlamaSE.self_extend_forward, group_size_1=8, group_size_2=1024)
 
 
-model_path = os.getenv('CHATLM')
 # model_path = 'TinyLlama/TinyLlama-1.1B-Chat-v1.0'
 # model_path = '/scratch/yerong/.cache/pyllama/TinyLlama-1.1B-Chat-v1.0'
+model_path = os.getenv('TINY')
+# model_path = os.getenv('CHATLM')
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto")
 print(model.device)
 print('device =============')
